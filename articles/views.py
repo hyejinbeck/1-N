@@ -41,7 +41,26 @@ def detail(request,id):
     
     return render(request, 'detail.html', context)
 
-def comment_create(request, artices_id): 
-    pass 
+def comment_create(request, article_id): 
+
+    # 사용자가 입력한 정보를 form에 입력
+    comment_form = CommentForm(request.POST)  
+
+    # 유효성 검사 (프론트엔드)
+    if comment_form.is_valid():  
+        # form을 저장(백엔드)-> 추가로 넣어야 하는 데이터를 넣기 위해, 저장 멈춰!
+        comment = comment_form.save(commit=False)
+        # 어떤 데이터가 필요하다? 그럼 잠깐 저장 멈춰 
+        
+        # article_id를 기준으로 article obj를 가져와서 
+        article = Article.objects.get(id=article_id)
+
+        # article 컬럼에 추가한다. 
+        comment.article = article 
+
+        # 그리고 저장한다. 
+        comment.save()
+
+        return redirect('articles:detail', id=article_id)
 
 
