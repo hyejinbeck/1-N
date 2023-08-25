@@ -1,6 +1,6 @@
 from django.shortcuts import render , redirect
 from .models import Article
-from .forms import ArticleForm
+from .forms import ArticleForm, CommentForm # , CommentForm 추가 
 
 # Create your views here.
 def index(request): 
@@ -32,12 +32,16 @@ def create(request):
 
 def detail(request,id):
     article = Article.objects.get(id=id)
+    comment_form = CommentForm()    # 추가 
 
     context = {
         'article': article, 
+        'comment_form': comment_form, # 추가 
     }
     
     return render(request, 'detail.html', context)
 
+def comment_create(request, artices_id): 
+    pass 
 
 
